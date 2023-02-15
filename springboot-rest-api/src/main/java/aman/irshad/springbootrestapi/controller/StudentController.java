@@ -35,4 +35,15 @@ public class StudentController {
         return students;
     }
 
+
+    // Spring Boot REST API with Path Variable
+    // {id} - URI Template Variable
+    // http://localhost:8080/students/1/ramesh/fadatare
+    // @PathVariable - to bind method argument to uri template variable
+    @GetMapping("/students/{id}/{first-name}/{last-name}")
+    public Student studentPathVariable(@PathVariable("id") int studentId,
+                                       @PathVariable("first-name") String firstName,
+                                       @PathVariable("last-name") String lastName){
+        return new Student(studentId,firstName,lastName);
+    }
 }
