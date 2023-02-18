@@ -58,7 +58,7 @@ public class StudentController {
         return new Student(id,firstName,lastName);
     }
 
-    // Spring boot REST API that handles HTTP POST request
+    // Spring boot REST API that handles HTTP POST request - creating new resource
     // @PostMapping and @RequestBody
     // @RequestBody internally uses HttpMessageConverter to convert JSON to Java Object
     // @ResponseStatus to return a status code by default 200
@@ -66,6 +66,14 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Student createStudent(@RequestBody Student student){
         System.out.println(student.getId());
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
+
+    // Spring boot REST API that handles HTTP PUT request - updating existing resource
+    @PutMapping("students/{id}/update")
+    public Student updateStudent(@RequestBody Student student, @PathVariable("id") int studentId){
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
         return student;
