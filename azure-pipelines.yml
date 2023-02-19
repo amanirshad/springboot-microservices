@@ -1,0 +1,45 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  name: Azure Pipelines
+  demands: maven
+  vmImage: ubuntu-latest
+
+#Your build pipeline references an undefined variable named ‘Parameters.mavenPOMFile’.
+# Create or edit the build pipeline for this YAML file,
+# define the variable on the Variables tab. 
+#See https://go.microsoft.com/fwlink/?linkid=865972
+
+steps:
+- task: Maven@3
+  displayName: 'Maven Build'
+  inputs:
+    mavenPomFile: 'springboot-rest-api/pom.xml'
+    goals: 'clean install'
+    jdkVersionOption: 1.11
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**/*.jar'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: mvndrop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: mvndrop
+
+- task: Docker@2
+  displayName: buildAndPush
+  inputs:
+    containerRegistry: 'dockerhub_service_connection'
+    repository: '$(Build.Repository.Name)-$(Build.BuildId)'
