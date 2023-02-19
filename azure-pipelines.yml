@@ -7,9 +7,9 @@ trigger:
 - main
 
 pool:
-  name: Azure Pipelines
-  demands: maven
   vmImage: ubuntu-latest
+  demands: maven
+  
 
 #Your build pipeline references an undefined variable named ‘Parameters.mavenPOMFile’.
 # Create or edit the build pipeline for this YAML file,
