@@ -71,8 +71,7 @@ steps:
   continueOnError: true
 
 - script: |
-      sudo apt-get update
-      sudo apt-get install trivy
+      curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3
       mkdir report
       trivy image -s HIGH,CRITICAL $(ImageName):latest | tee ./report/trivy-image-scan-report.txt
   displayName: "Image scan by Trivy"
