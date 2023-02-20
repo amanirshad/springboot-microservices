@@ -60,6 +60,6 @@ steps:
   displayName: 'Push the Docker image to Dockerhub'
   inputs:
     containerregistrytype: 'Container Registry'
-    dockerRegistryEndpoint: 'Docker Hub'
+    dockerRegistryEndpoint: 'dockerhub_service_connection'
     command: 'Push an image'
     imageName: '$(ImageName)'
