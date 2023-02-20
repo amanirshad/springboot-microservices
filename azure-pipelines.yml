@@ -1,3 +1,4 @@
+name: $(BuildDefinitionName)_$(date:yyyyMMdd)_$(BuildID)$(rev:.r)
 # Starter pipeline
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
@@ -41,6 +42,11 @@ steps:
   condition: succeededOrFailed()
 
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: mvndrop
 
 - task: Docker@2
   displayName: 'Build the Docker image'
@@ -81,8 +87,7 @@ steps:
   displayName: "Image scan by Trivy"
   continueOnError: true
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-    ArtifactName: mvndrop
+- publish: ./report
+  artifact: ImageScans
+  displayName: Publish Clair Scan Report
+  condition: always()
