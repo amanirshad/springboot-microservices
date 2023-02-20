@@ -4,11 +4,17 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: ubuntu-latest
   demands: maven
+  
+
+variables:
+  ImageName: 'amanirshad7/spring-rest-api:$(Build.BuildId)'
   
 
 #Your build pipeline references an undefined variable named ‘Parameters.mavenPOMFile’.
@@ -39,7 +45,21 @@ steps:
     ArtifactName: mvndrop
 
 - task: Docker@2
-  displayName: buildAndPush
+  displayName: 'Build the Docker image'
   inputs:
-    containerRegistry: 'dockerhub_service_connection'
-    repository: '$(Build.Repository.Name)-$(Build.BuildId)'
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'dockerhub_service_connection'
+    command: 'Build an image'
+    dockerFile: '**/Dockerfile'
+    imageName: '$(ImageName)'
+    includeLatestTag: true
+    useDefaultContext: false
+    buildContext: '.'
+     
+- task: Docker@1
+  displayName: 'Push the Docker image to Dockerhub'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'Docker Hub'
+    command: 'Push an image'
+    imageName: '$(ImageName)'
