@@ -87,7 +87,7 @@ steps:
   displayName: "Image scan by Trivy"
   continueOnError: true
 
-- publish: ./report
+- publish: ./reportTrivy
   artifact: ImageScans
   displayName: Publish Clair Scan Report
   condition: always()
