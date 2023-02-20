@@ -14,7 +14,7 @@ pool:
   
 
 variables:
-  ImageName: 'amanirshad7/spring-rest-api:$(Build.BuildId)'
+  ImageName: 'amanirshad7/spring-rest-api'
   
 
 #Your build pipeline references an undefined variable named ‘Parameters.mavenPOMFile’.
