@@ -5,7 +5,7 @@ COPY springboot-rest-api/pom.xml /build/
 COPY springboot-rest-api/src /build/src/
 
 RUN mvn clean package
-COPY target/springboot-rest-api-${VERSION}.jar target/application.jar
+COPY springboot-rest-api/target/springboot-rest-api-${VERSION}.jar target/application.jar
 
 FROM openjdk:11.0.8-jre-slim
 WORKDIR /app/
