@@ -47,19 +47,8 @@ steps:
 - task: Docker@2
   displayName: 'Build the Docker image'
   inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryEndpoint: 'dockerhub_service_connection'
-    command: 'Build an image'
+    containerRegistry: 'dockerhub_service_connection'
+    command: 'buildAndPush'
     dockerFile: '**/Dockerfile'
-    imageName: '$(ImageName)'
-    includeLatestTag: true
-    useDefaultContext: false
-    buildContext: '.'
-     
-- task: Docker@1
-  displayName: 'Push the Docker image to Dockerhub'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryEndpoint: 'dockerhub_service_connection'
-    command: 'Push an image'
-    imageName: '$(ImageName)'
+    repository: '$(ImageName)'
+    tags: latest
