@@ -69,3 +69,11 @@ steps:
       docker image rm $(clair_db)
   displayName: "Image scan by Clair"
   continueOnError: true
+
+- script: |
+      sudo apt-get update
+      sudo apt-get install trivy
+      mkdir report
+      trivy image -s HIGH,CRITICAL $(ImageName):latest | tee ./report/trivy-image-scan-report.txt
+  displayName: "Image scan by Trivy"
+  continueOnError: true
